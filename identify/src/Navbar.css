@@ -1,0 +1,72 @@
+/* identify/src/Navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand a {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    letter-spacing: 1px;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 25px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: #007bff;
+}
+
+/* Special styling for the Logout button to make it look like a link */
+.nav-logout-btn {
+    background: none;
+    border: none;
+    color: #555;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0;
+}
+
+.nav-logout-btn:hover {
+    color: #dc3545;
+    /* Turns red on hover to indicate a destructive action */
+}
+
+/* The highlighted register button */
+.nav-btn-primary {
+    background-color: #007bff;
+    color: white !important;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-btn-primary:hover {
+    background-color: #0056b3;
+}
