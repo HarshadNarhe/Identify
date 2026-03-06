@@ -1,0 +1,160 @@
+/* identify/src/StudentRegistration.css */
+
+.student-form-wrapper {
+    padding: 40px;
+    min-height: calc(100vh - 70px);
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.student-form-card {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 500px;
+    border-top: 4px solid #28a745;
+    box-sizing: border-box;
+}
+
+.student-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.student-form-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-col {
+    flex: 1;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Styles both text inputs and select dropdowns identically */
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+}
+
+.form-input:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.15);
+}
+
+/* The new Smart ID Preview Box */
+.id-preview-box {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 2px dashed #adb5bd;
+    transition: all 0.3s ease;
+}
+
+.id-preview-box:hover {
+    border-color: #28a745;
+    background-color: #f0fdf4;
+}
+
+.id-preview-label {
+    font-size: 14px;
+    color: #6c757d;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.id-preview-value {
+    font-size: 22px;
+    color: #28a745;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+.message-success {
+    color: #155724;
+    background-color: #d4edda;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    border: 1px solid #c3e6cb;
+}
+
+.message-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    border: 1px solid #f5c6cb;
+}

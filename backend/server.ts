@@ -65,4 +65,89 @@ app.post('/login', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+// Student Registration Route
+app.post('/students', async (req: Request, res: Response): Promise<void> => {
+  try {
+    // 1. We now extract all 5 fields sent from the React frontend
+    const { student_id, student_no, student_name, standard, division } = req.body;
+    
+    // 2. The SQL query is updated to match your new table structure perfectly
+    const [result] = await pool.execute(
+      'INSERT INTO students (student_id, student_no, student_name, standard, division) VALUES (?, ?, ?, ?, ?)',
+      [student_id, student_no, student_name, standard, division]
+    );
+    
+    res.status(201).json({ message: 'Student registered successfully!' });
+  } catch (error: any) {
+    // Catch duplicate entries (either the student_id or student_no)
+    if (error.code === 'ER_DUP_ENTRY') {
+      res.status(400).json({ error: 'A student with this Roll Number or generated ID already exists in the database.' });
+    } else {
+      console.error('Database Error:', error); // Prints the exact error in your terminal for debugging
+      res.status(500).json({ error: 'Database error while registering student.' });
+    }
+  }
+});
+
+// 1. Fetch all students for the dropdown
+app.get('/students', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const [rows] = await pool.execute('SELECT student_id, student_name FROM students ORDER BY student_name ASC');
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).json({ error: 'Failed to fetch students from database.' });
+  }
+});
+
+// 2. Submit Marks Route
+app.post('/marks', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { student_id, semester, marks } = req.body;
+    
+    // Map the dropdown selection to the exact database column name
+    const semesterColumnMap: Record<string, string> = {
+      'First': 'first_sem_marks',
+      'Mid': 'mid_sem_marks',
+      'Third': 'third_sem_marks',
+      'Last': 'last_sem_marks'
+    };
+    const semColumn = semesterColumnMap[semester];
+
+    if (!semColumn) {
+      res.status(400).json({ error: 'Invalid semester selected.' });
+      return;
+    }
+
+    // Loop through the 7 subjects sent from the frontend
+    for (const [subject, mark] of Object.entries(marks)) {
+      // Check if this student already has a row for this specific subject
+      const [existingRows]: any = await pool.execute(
+        'SELECT mark_id FROM subject_marks WHERE student_id = ? AND subject = ?',
+        [student_id, subject]
+      );
+
+      if (existingRows.length > 0) {
+        // If the row exists, UPDATE the specific semester column
+        await pool.execute(
+          `UPDATE subject_marks SET ${semColumn} = ? WHERE student_id = ? AND subject = ?`,
+          [mark, student_id, subject]
+        );
+      } else {
+        // If the row doesn't exist, INSERT a new row
+        await pool.execute(
+          `INSERT INTO subject_marks (student_id, subject, ${semColumn}) VALUES (?, ?, ?)`,
+          [student_id, subject, mark]
+        );
+      }
+    }
+
+    res.status(200).json({ message: 'Marks successfully saved for all subjects!' });
+  } catch (error: any) {
+    console.error('Database Error:', error);
+    res.status(500).json({ error: 'Database error while saving marks.' });
+  }
+});
+
+
 app.listen(5000, () => console.log('Backend server running on port 5000'));
