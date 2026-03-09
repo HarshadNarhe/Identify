@@ -1,15 +1,13 @@
-// 1. We imported useRef here!
 import React, { useState, useEffect, useRef } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  BarChart, Bar, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, 
-  PolarRadiusAxis, Radar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
-} from 'recharts';
+
+// 1. We import our new component here, and removed all the recharts imports!
+import ChartRenderer from '../components/ChartRenderer'; 
+
 import '../StudentRegistration.css';
 import '../Analyse.css';
 
-const colors: Record<string, string> = { A: '#8884d8', B: '#82ca9d', C: '#ffc658', D: '#ff7300' };
 const allDivisionsList = ['A', 'B', 'C', 'D'];
 
 const Analyse: React.FC = () => {
@@ -25,26 +23,17 @@ const Analyse: React.FC = () => {
   const [chartData, setChartData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Create the reference "boundary"
   const dropdownRef = useRef<HTMLDivElement>(null); 
 
-  // Hook for dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // If the dropdown is open AND the click happened outside our ref boundary...
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDivDropdownOpen(false); 
       }
     };
-
-    // Attach the listener to the whole document
     document.addEventListener('mousedown', handleClickOutside);
-    
-    // Cleanup function so we don't cause memory leaks
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []); // Empty array means this only runs once when the page loads
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []); 
 
   useEffect(() => {
     if (!standard || !semester) return; 
@@ -54,7 +43,6 @@ const Analyse: React.FC = () => {
       try {
         const response = await axios.get(`http://localhost:5000/analytics?standard=${standard}&semester=${semester}`);
         setChartData(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Failed to fetch chart data', error);
       } finally {
@@ -78,77 +66,6 @@ const Analyse: React.FC = () => {
       setDivisions([]); 
     } else {
       setDivisions(allDivisionsList); 
-    }
-  };
-
-  const renderGraph = () => {
-    if (!standard || !semester) return <p className="graph-empty-message">Please select a Standard and Semester to fetch data.</p>;
-    if (divisions.length === 0) return <p className="graph-empty-message">Please select at least one Division.</p>;
-    if (!graphType) return <p className="graph-empty-message bold">Please select a Graph Type to visualize the data.</p>;
-    if (isLoading) return <p className="graph-empty-message">Loading Database Averages...</p>;
-
-    switch (graphType) {
-      case 'simple-bar':
-        return (
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="subject" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
-              {divisions.map(div => <Bar key={div} dataKey={div} fill={colors[div]} name={`Division ${div}`} />)}
-            </BarChart>
-          </ResponsiveContainer>
-        );
-
-      case 'stacked-bar':
-        return (
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="subject" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
-              {divisions.map(div => <Bar key={div} dataKey={div} stackId="a" fill={colors[div]} name={`Division ${div}`} />)}
-            </BarChart>
-          </ResponsiveContainer>
-        );
-
-      case 'simple-line':
-        return (
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="subject" />
-              <YAxis domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
-              {divisions.map(div => <Line key={div} type="monotone" dataKey={div} stroke={colors[div]} strokeWidth={3} name={`Division ${div}`} />)}
-            </LineChart>
-          </ResponsiveContainer>
-        );
-
-      case 'radar':
-        return (
-          <ResponsiveContainer width="100%" height={400}>
-            <RadarChart outerRadius={150} data={chartData}>
-              {/* @ts-ignore */}
-              <PolarGrid />
-              {/* @ts-ignore */}
-              <PolarAngleAxis dataKey="subject" />
-              {/* @ts-ignore */}
-              <PolarRadiusAxis angle={30} domain={[0, 100]} />
-              <Tooltip />
-              <Legend />
-              {divisions.map(div => <Radar key={div} name={`Division ${div}`} dataKey={div} stroke={colors[div]} fill={colors[div]} fillOpacity={0.5} />)}
-            </RadarChart>
-          </ResponsiveContainer>
-        );
-
-      default:
-        return null;
     }
   };
 
@@ -189,10 +106,8 @@ const Analyse: React.FC = () => {
             </select>
           </div>
 
-          {/* 4. We attached the ref to this container div! */}
           <div className="analyse-filter-col" ref={dropdownRef}>
             <label className="form-label">3. Division</label>
-            
             <div className="form-input custom-dropdown-header" onClick={() => setIsDivDropdownOpen(!isDivDropdownOpen)}>
               {divisions.length === 0 ? 
                 <span className="custom-dropdown-placeholder">-- Select Division --</span> : 
@@ -200,16 +115,13 @@ const Analyse: React.FC = () => {
               }
               <span>▼</span>
             </div>
-            
             {isDivDropdownOpen && (
               <div className="custom-dropdown-menu">
                 <label className="custom-dropdown-item" style={{ fontWeight: 'bold' }}>
                   <input type="checkbox" checked={divisions.length === allDivisionsList.length} onChange={handleSelectAllDivisions} /> 
                   All Divisions
                 </label>
-                
                 <hr className="custom-dropdown-divider" />
-                
                 {allDivisionsList.map(div => (
                   <label key={div} className="custom-dropdown-item">
                     <input type="checkbox" checked={divisions.includes(div)} onChange={() => handleDivToggle(div)} /> 
@@ -234,7 +146,14 @@ const Analyse: React.FC = () => {
         </div>
 
         <div className="graph-display-container">
-          {renderGraph()}
+          <ChartRenderer 
+            standard={standard}
+            semester={semester}
+            divisions={divisions}
+            graphType={graphType}
+            isLoading={isLoading}
+            chartData={chartData}
+          />
         </div>
 
       </div>
