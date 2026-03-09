@@ -8,15 +8,13 @@ import Navbar from './components/Navbar';
 import StudentRegistration from './pages/StudentRegistration';
 import GlobalInactivityTimer from './components/GlobalInactivityTimer'; // <-- 1. ADD THIS IMPORT
 import StudentMarks from './pages/StudentMarks';
+import Analyse from './pages/Analyse';
 
 
 const App: React.FC = () => {
   return (
     <Router>
-      {/* The Navbar goes here so it wraps the whole app! */}
       <Navbar /> 
-      
-      {/* <-- 2. ADD THE TIMER HERE so it watches every protected page */}
       <GlobalInactivityTimer /> 
       
       <Routes>
@@ -46,6 +44,15 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <StudentMarks />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/analyse" 
+          element={
+            <ProtectedRoute>
+              <Analyse />
             </ProtectedRoute>
           } 
         />

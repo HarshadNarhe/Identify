@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../StudentRegistration.css'; // Reusing the wrapper styles
-import '../MarksForm.css'; // The new grid styles
+import '../StudentRegistration.css'; 
+import '../MarksForm.css'; 
 
 interface Student {
   student_id: string;
@@ -19,7 +19,7 @@ const StudentMarks: React.FC = () => {
   const [selectedStudent, setSelectedStudent] = useState('');
   const [semester, setSemester] = useState('');
   
-  // Create an object to hold marks for all 7 subjects
+  // all 7 subjects
   const [marks, setMarks] = useState<Record<string, string>>({
     English: '', Marathi: '', Hindi: '', Maths: '', Science: '', History: '', Geography: ''
   });
@@ -136,6 +136,7 @@ const StudentMarks: React.FC = () => {
                   value={marks[subject]}
                   onChange={(e) => handleMarkChange(subject, e.target.value)}
                   placeholder="0.00"
+                  // For update we can remove required
                   required // Makes filling every subject absolutely mandatory
                 />
               </div>

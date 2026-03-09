@@ -1,4 +1,4 @@
-import React from 'react'; // <-- 1. Removed useEffect from here
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Dashboard.css';
 
@@ -9,8 +9,6 @@ const Dashboard: React.FC = () => {
     localStorage.removeItem('token');
     navigate('/login');
   };
-
-  // <-- 2. The entire 120-Second Inactivity Tracker useEffect block was deleted from here!
 
   return (
     <div className="dashboard-wrapper">
@@ -51,6 +49,22 @@ const Dashboard: React.FC = () => {
         >
           <h3>📊 Enter Student Marks</h3>
           <p>Click anywhere on this card to record semester grades for a student.</p>
+        </div>
+
+        {/* Card 3: Clickable Analytics Patch */}
+        <div 
+          className="dashboard-card" 
+          onClick={() => navigate('/analyse')}
+          style={{ 
+            cursor: 'pointer', 
+            borderTop: '4px solid #17a2b8',
+            transition: 'transform 0.2s ease, boxShadow 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+        >
+          <h3>📈 Analyse Performance</h3>
+          <p>Click here to visualize student marks with interactive charts and graphs.</p>
         </div>
 
       </div>

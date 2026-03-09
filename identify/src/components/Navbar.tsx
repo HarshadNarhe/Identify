@@ -17,19 +17,16 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        {/* Clicking the logo takes them to the dashboard if logged in, otherwise to login */}
         <Link to={token ? "/dashboard" : "/login"}>Identify</Link>
       </div>
       
       <ul className="navbar-links">
         {token ? (
-          // IF USER IS LOGGED IN: Show these links
           <>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><button onClick={handleLogout} className="nav-logout-btn">Logout</button></li>
           </>
         ) : (
-          // IF USER IS NOT LOGGED IN: Show these links
           <>
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/register" className="nav-btn-primary">Register</Link></li>

@@ -17,7 +17,7 @@ const GlobalInactivityTimer = () => {
     const handleLogout = () => {
       // Clear the token to officially log them out
       localStorage.removeItem('token');
-      alert('Security Alert: Your session has expired due to 120 seconds of inactivity.');
+      alert('Security Alert: Your session has expired due to inactivity.');
       navigate('/login');
     };
 

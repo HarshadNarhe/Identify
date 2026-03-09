@@ -1,6 +1,3 @@
-/* identify/src/Auth.css */
-
-/* Centers the card on the screen with a light gray background */
 .auth-wrapper {
     display: flex;
     justify-content: center;
@@ -10,7 +7,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* The white box containing the form */
 .auth-card {
     background: white;
     padding: 40px;

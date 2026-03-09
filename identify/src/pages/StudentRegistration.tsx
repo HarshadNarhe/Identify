@@ -13,9 +13,8 @@ const StudentRegistration: React.FC = () => {
   
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
-  const [savedId, setSavedId] = useState(''); // Stores the ID to show after saving
+  const [savedId, setSavedId] = useState(''); 
 
-  // Generates the ID format: [Division][Standard][3-digit padded number]
   // Example: Division A, Standard 5, Roll 12 -> A5012
   const generateId = (div: string, std: string, num: string) => {
     const paddedNum = num.padStart(3, '0');

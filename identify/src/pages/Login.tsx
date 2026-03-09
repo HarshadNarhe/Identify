@@ -6,14 +6,14 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Used to redirect after login
+  const navigate = useNavigate(); 
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/login', { username, password });
       localStorage.setItem('token', response.data.token);
-      navigate('/dashboard'); // Send them to the secure area!
+      navigate('/dashboard'); 
     } catch (err: any) {
       setError(err.response?.data?.error || 'Login failed.');
     }

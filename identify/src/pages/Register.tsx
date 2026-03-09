@@ -6,7 +6,7 @@ import '../Auth.css';
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // <-- 1. New state
+  const [confirmPassword, setConfirmPassword] = useState(''); 
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const Register: React.FC = () => {
     // <-- 2. Frontend Validation
     if (password !== confirmPassword) {
       setMessage('Passwords do not match. Please try again.');
-      return; // Stop the function here so it doesn't talk to the backend
+      return; 
     }
 
     try {
